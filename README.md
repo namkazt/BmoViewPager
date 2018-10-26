@@ -141,16 +141,7 @@ For example, I always keep the UIViewController of previous page, current page a
 ```swift
 var cachedPageViewControllers = [Int: UIViewController]()
 func bmoViewPagerDelegate(_ viewPager: BmoViewPager, didAppear viewController: UIViewController, page: Int) {
-    switch page {
-    case 0:
-        self.prepareCachedPageViewControllers(pages: [pageCount - 1, page, page + 1])
-    case 1..<(pageCount - 1):
-        self.prepareCachedPageViewControllers(pages: [page - 1, page, page + 1])
-    case pageCount - 1:
-        self.prepareCachedPageViewControllers(pages: [page - 1, page, 0])
-    default:
-        break
-    }
+    self.prepareCachedPageViewControllers(pages: [(page - 1) % pageCount, page, (page + 1) % pageCount])
 }
 func bmoViewPagerDataSource(_ viewPager: BmoViewPager, viewControllerForPageAt page: Int) -> UIViewController {
     if let cacheVC = cachedPageViewControllers[page] {
